@@ -16,7 +16,7 @@ const LoginPage = () => {
 
     try {
       const response = await apiClient.post("/auth/login", { email, password });
-      login(response.data.token);
+      login(response.data.accessToken);
       navigate("/jobs");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

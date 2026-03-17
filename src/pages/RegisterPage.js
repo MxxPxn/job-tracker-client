@@ -16,7 +16,7 @@ const RegisterPage = () => {
     
     try {
       const response = await apiClient.post("/auth/register", { email, password });
-      login(response.data.token);
+      login(response.data.accessToken);
       navigate("/jobs");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");

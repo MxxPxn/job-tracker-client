@@ -30,7 +30,7 @@ test('renders login form', () => {
 test('successful login calls login() with token', async () => {
   const mockLogin = jest.fn();
   useAuth.mockReturnValue({ login: mockLogin, token: null });
-  apiClient.post.mockResolvedValue({ data: { token: 'fake-token' } });
+  apiClient.post.mockResolvedValue({ data: { accessToken: 'fake-token' } });
 
   render(
     <MemoryRouter>
