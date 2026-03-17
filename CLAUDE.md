@@ -5,23 +5,53 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm start        # Dev server at http://localhost:3000
-npm test         # Run tests in interactive watch mode
-npm test -- --watchAll=false  # Run tests once (CI mode)
-npm run build    # Production build to /build
+npm start                     # Dev server at http://localhost:3001
+npm test -- --watchAll=false  # Run all tests once
+npm test                      # Run tests in interactive watch mode
+npm run build                 # Production build to /build
 ```
 
 ## Architecture
 
-This is a **Create React App** project (React 19, JavaScript). All build tooling (Webpack, Babel, ESLint, Jest) is abstracted by `react-scripts` — no separate config files exist for these.
+**Create React App** (React 19, JavaScript). Backend API runs at `http://localhost:3000` — set via `REACT_APP_API_URL` in `.env`.
 
-**Current state**: Freshly bootstrapped. No custom components, routing, state management, or API integration exist yet. The `src/` directory contains only the default CRA template files.
+**Tech Stack:** React 19, React Router v7, Axios, Jest + React Testing Library.
 
-### Key conventions to follow as the app grows
-- ESLint config extends `react-app` and `react-app/jest` (defined in `package.json`)
-- Environment variables must be prefixed with `REACT_APP_` to be accessible in the app
-- Use `.env.local` for local overrides (already gitignored)
-- Testing uses `@testing-library/react` with `@testing-library/jest-dom` matchers (configured in `src/setupTests.js`)
+**Layered Structure:**
+```
+src/api/client.js         → Axios instance with auth + 401 interceptors
+src/context/AuthContext.js → JWT token state (localStorage-backed)
+src/components/           → ProtectedRoute, PublicRoute guards
+src/pages/                → LoginPage, RegisterPage, JobsPage, CreateJobPage, EditJobPage
+```
+
+**Auth Flow:** JWT token stored in `localStorage`. `AuthContext` initializes synchronously via `useState(() => localStorage.getItem('token'))`. `ProtectedRoute` redirects to `/login` if no token. `PublicRoute` redirects to `/jobs` if token exists.
+
+**API Client (`src/api/client.js`):**
+- Request interceptor: attaches `Authorization: Bearer <token>` from localStorage
+- Response interceptor: catches 401s on non-auth routes → clears token + redirects to `/login`. Auth routes (`/auth/*`) pass 401 through so login/register can display error messages.
+
+**Routes:**
+| Path | Guard | Page |
+|---|---|---|
+| `/login` | PublicRoute | LoginPage |
+| `/register` | PublicRoute | RegisterPage |
+| `/jobs` | ProtectedRoute | JobsPage |
+| `/jobs/create` | ProtectedRoute | CreateJobPage |
+| `/jobs/:id/edit` | ProtectedRoute | EditJobPage |
+
+**API Response Shapes:**
+- Auth: `{ success: true, token: "..." }` — token at top level, not nested in `data`
+- Jobs: `{ success: true, data: [...] , pagination: { total, page, totalPages, limit } }`
+
+**Key Patterns:**
+- `JOBS_PER_PAGE = 10` constant defined outside `JobsPage` component
+- Job status values: `applied`, `interview`, `offer`, `rejected`
+- `JobsPage` re-fetches when `statusFilter` or `currentPage` changes via `useEffect([statusFilter, currentPage])`
+
+**Testing:** Jest + React Testing Library. Tests require Jest config workarounds in `package.json` for React Router v7 and Axios ESM compatibility with CRA's older test runner. `TextEncoder` polyfill added in `src/setupTests.js`.
+- `AuthContext.test.js` — login/logout/localStorage persistence
+- `Login.test.js` — form rendering, successful login, error display
 
 # Mentorship Instructions
 
