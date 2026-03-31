@@ -118,6 +118,7 @@ const JobsPage = () => {
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Company</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Position</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Priority</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Applied Date</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
                 </tr>
