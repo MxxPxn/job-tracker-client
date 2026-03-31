@@ -5,6 +5,7 @@ import apiClient from "../api/client";
 const CreateJobPage = () => {
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
+  const [priority, setPriority] = useState("medium");
   const [location, setLocation] = useState("");
   const [salary, setSalary] = useState("");
   const [appliedDate, setAppliedDate] = useState("");
@@ -23,21 +24,32 @@ const CreateJobPage = () => {
       await apiClient.post("/jobs", { position, company, appliedDate, status });
       navigate("/jobs");
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to create job application");
+      setError(
+        err.response?.data?.message || "Failed to create job application",
+      );
     }
   };
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-10">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Create Job Application</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Create Job Application
+      </h2>
       {error && (
         <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-3 rounded-md mb-4">
           {error}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-4">
+
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white rounded-lg shadow-md p-6 grid grid-cols-2 gap-6"
+      >
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Position
           </label>
           <input
@@ -50,7 +62,10 @@ const CreateJobPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="company"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Company
           </label>
           <input
@@ -63,7 +78,10 @@ const CreateJobPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Status
           </label>
           <select
@@ -79,7 +97,28 @@ const CreateJobPage = () => {
           </select>
         </div>
         <div>
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="priority"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Priority
+          </label>
+          <select
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="priority"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div>
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Location
           </label>
           <input
@@ -87,11 +126,15 @@ const CreateJobPage = () => {
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             id="location"
             value={location}
+            placeholder="e.g, Remote, New York, etc."
             onChange={(e) => setLocation(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="Salary" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="Salary"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Salary
           </label>
           <input
@@ -99,11 +142,15 @@ const CreateJobPage = () => {
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             id="Salary"
             value={salary}
+            placeholder="e.g, &80k - &100k"
             onChange={(e) => setSalary(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="appliedDate" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="appliedDate"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Applied Date
           </label>
           <input
@@ -116,7 +163,10 @@ const CreateJobPage = () => {
           />
         </div>
         <div>
-          <label htmlFor="deadline" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="deadline"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Deadline Date
           </label>
           <input
@@ -127,8 +177,11 @@ const CreateJobPage = () => {
             onChange={(e) => setDeadline(e.target.value)}
           />
         </div>
-        <div>
-          <label htmlFor="jobUrl" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="col-span-2">
+          <label
+            htmlFor="jobUrl"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Job URL
           </label>
           <input
@@ -136,11 +189,15 @@ const CreateJobPage = () => {
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             id="jobUrl"
             value={jobUrl}
+            placeholder="https://..."
             onChange={(e) => setJobUrl(e.target.value)}
           />
         </div>
-        <div>
-          <label htmlFor="note" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="col-span-2">
+          <label
+            htmlFor="note"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Note
           </label>
           <textarea
