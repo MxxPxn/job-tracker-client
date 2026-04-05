@@ -11,6 +11,7 @@ const JobsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 10 });
   const { logout } = useAuth();
@@ -28,6 +29,9 @@ const JobsPage = () => {
         if (statusFilter) {
           params.status = statusFilter;
         }
+        if (priorityFilter) {
+          params.priority = priorityFilter;
+        }
         const response = await apiClient.get("/jobs", { params });
         setJobs(response.data.data);
         setPagination(response.data.pagination);
@@ -39,10 +43,10 @@ const JobsPage = () => {
     };
 
     fetchJobs();
-  }, [currentPage, statusFilter]);
+  }, [currentPage, statusFilter, priorityFilter]);
 
-  const handleStatusChange = (e) => {
-    setStatusFilter(e.target.value);
+  const handleFilterChange = (setter) => (e) => {
+    setter(e.target.value);
     setCurrentPage(1);
   };
 
@@ -84,21 +88,32 @@ const JobsPage = () => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="statusFilter" className="block text-sm font-medium text-gray-700 mb-1">
-          Filter by Status
-        </label>
-        <select
-          id="statusFilter"
-          className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={statusFilter}
-          onChange={handleStatusChange}
-        >
-          <option value="">All</option>
-          <option value="applied">Applied</option>
-          <option value="interview">Interviewing</option>
-          <option value="offer">Offer</option>
-          <option value="rejected">Rejected</option>
-        </select>
+        <p className="block text-sm font-medium text-gray-700 mb-2">Filters</p>
+        <div className="flex gap-4">
+          <select
+            id="statusFilter"
+            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={statusFilter}
+            onChange={handleFilterChange(setStatusFilter)}
+          >
+            <option value="">All Statuses</option>
+            <option value="applied">Applied</option>
+            <option value="interview">Interviewing</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+          </select>
+          <select
+            id="priorityFilter"
+            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={priorityFilter}
+            onChange={handleFilterChange(setPriorityFilter)}
+          >
+            <option value="">All Priorities</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
       </div>
 
       {loading ? (
@@ -131,6 +146,7 @@ const JobsPage = () => {
                     <td className="px-4 py-3 text-sm text-gray-800">
                       <StatusBadge status={job.status} />
                     </td>
+                    <td className="px-4 py-3 text-sm text-gray-800">{job.priority}</td>
                     <td className="px-4 py-3 text-sm text-gray-800">
                       {new Date(job.appliedDate).toLocaleDateString()}
                     </td>
