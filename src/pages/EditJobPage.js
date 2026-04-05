@@ -8,6 +8,11 @@ const EditJobPage = () => {
   const [position, setPosition] = useState("");
   const [company, setCompany] = useState("");
   const [appliedDate, setAppliedDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [salary, setSalary] = useState("");
+  const [deadlineDate, setDeadlineDate] = useState("");
+  const [jobUrl, setJobUrl] = useState("");
+  const [priority, setPriority] = useState("medium");
   const [status, setStatus] = useState("applied");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
@@ -23,6 +28,11 @@ const EditJobPage = () => {
         setAppliedDate(job.appliedDate);
         setStatus(job.status);
         setNotes(job.notes || "");
+        setLocation(job.location || "");
+        setSalary(job.salary || "");
+        setDeadlineDate(job.deadlineDate || "");
+        setJobUrl(job.jobUrl || "");
+        setPriority(job.priority || "medium");
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch job application");
       }
@@ -36,7 +46,7 @@ const EditJobPage = () => {
     setError("");
 
     try {
-      await apiClient.put(`/jobs/${id}`, { position, company, appliedDate, status, notes });
+      await apiClient.put(`/jobs/${id}`, { position, company, appliedDate, status, notes, location, salary, deadlineDate, jobUrl, priority });
       navigate("/jobs");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update job application");
@@ -51,10 +61,10 @@ const EditJobPage = () => {
           {error}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 grid grid-cols-2 gap-6">
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-            Job Title
+            Position
           </label>
           <input
             type="text"
@@ -94,6 +104,49 @@ const EditJobPage = () => {
             <option value="rejected">Rejected</option>
           </select>
         </div>
+
+        <div>
+          <label htmlFor="priority" className="block text-sm font-medium text-gray-700 mb-1">
+            Priority
+          </label>
+          <select
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="priority"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select >
+        </div>
+
+        <div>
+          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+            Location
+          </label>
+          <input
+            type="text"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="salary" className="block text-sm font-medium text-gray-700 mb-1">
+            Salary
+          </label>
+          <input
+            type="text"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="salary"
+            value={salary}
+            onChange={(e) => setSalary(e.target.value)}
+          />
+        </div>
+
         <div>
           <label htmlFor="appliedDate" className="block text-sm font-medium text-gray-700 mb-1">
             Applied Date
@@ -107,7 +160,34 @@ const EditJobPage = () => {
             required
           />
         </div>
+
         <div>
+          <label htmlFor="deadlineDate" className="block text-sm font-medium text-gray-700 mb-1">
+            Deadline Date
+          </label>
+          <input
+            type="date"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="deadlineDate"
+            value={deadlineDate}
+            onChange={(e) => setDeadlineDate(e.target.value)}
+          />
+        </div>
+
+        <div className="col-span-2">
+          <label htmlFor="jobUrl" className="block text-sm font-medium text-gray-700 mb-1">
+            Job URL
+          </label>
+          <input
+            type="url"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="jobUrl"
+            value={jobUrl}
+            onChange={(e) => setJobUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="col-span-2">
           <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">
             Notes
           </label>
@@ -119,7 +199,7 @@ const EditJobPage = () => {
             rows={3}
           />
         </div>
-        <div className="flex gap-3 pt-2">
+        <div className="col-span-2 flex gap-3 pt-2">
           <button
             type="submit"
             className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition-colors"
