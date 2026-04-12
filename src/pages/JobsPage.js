@@ -132,10 +132,12 @@ const JobsPage = () => {
                 <tr>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Company</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Position</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Location</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Priority</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Applied Date</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
+                  
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -143,6 +145,7 @@ const JobsPage = () => {
                   <tr key={job.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-sm text-gray-800">{job.company}</td>
                     <td className="px-4 py-3 text-sm text-gray-800">{job.position}</td>
+                    <td className="px-4 py-3 text-sm text-gray-800">{job.location || ""}</td>
                     <td className="px-4 py-3 text-sm text-gray-800">
                       <StatusBadge status={job.status} />
                     </td>
