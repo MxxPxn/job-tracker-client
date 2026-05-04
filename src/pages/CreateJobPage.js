@@ -132,19 +132,25 @@ const CreateJobPage = () => {
         </div>
         <div>
           <label
-            htmlFor="Salary"
+            htmlFor="salary"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
             Salary
           </label>
-          <input
-            type="text"
+          <select
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            id="Salary"
+            id="salary"
             value={salary}
-            placeholder="e.g, &80k - &100k"
             onChange={(e) => setSalary(e.target.value)}
-          />
+          >
+            <option value="">Select range</option>
+            <option value="Below $50k">Below $50k</option>
+            <option value="$50k – $60k">$50k – $60k</option>
+            <option value="$60k – $80k">$60k – $80k</option>
+            <option value="$80k – $100k">$80k – $100k</option>
+            <option value="$100k – $130k">$100k – $130k</option>
+            <option value="$130k+">$130k+</option>
+          </select>
         </div>
         <div>
           <label
