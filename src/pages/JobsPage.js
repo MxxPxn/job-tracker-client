@@ -126,51 +126,61 @@ const JobsPage = () => {
         <p className="text-gray-500">No job applications found. Start by adding a new job!</p>
       ) : (
         <>
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Company</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Position</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Location</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Status</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Priority</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Applied Date</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">Actions</th>
-                  
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {jobs.map((job) => (
-                  <tr key={job.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm text-gray-800">{job.company}</td>
-                    <td className="px-4 py-3 text-sm text-gray-800">{job.position}</td>
-                    <td className="px-4 py-3 text-sm text-gray-800">{job.location || ""}</td>
-                    <td className="px-4 py-3 text-sm text-gray-800">
-                      <StatusBadge status={job.status} />
-                    </td>
-                    <td className="px-4 py-3 text-sm text-gray-800">{job.priority}</td>
-                    <td className="px-4 py-3 text-sm text-gray-800">
-                      {new Date(job.appliedDate).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-3 text-sm flex gap-2">
-                      <Link
-                        to={`/jobs/${job.id}/edit`}
-                        className="border border-blue-500 text-blue-600 px-3 py-1 rounded text-xs hover:bg-blue-50 transition-colors"
-                      >
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(job.id)}
-                        className="border border-red-400 text-red-500 px-3 py-1 rounded text-xs hover:bg-red-50 transition-colors"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-4 px-5 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <div className="w-36 shrink-0">Company</div>
+              <div className="w-44 shrink-0">Position</div>
+              <div className="w-32 shrink-0">Location</div>
+              <div className="w-24 shrink-0">Status</div>
+              <div className="w-20 shrink-0">Priority</div>
+              <div className="w-28 shrink-0">Salary</div>
+              <div className="w-28 shrink-0">Applied Date</div>
+              <div className="ml-auto shrink-0"></div>
+            </div>
+            {jobs.map((job) => (
+              <div
+                key={job.id}
+                className="bg-white rounded-lg shadow-sm border border-gray-100 px-5 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="w-36 shrink-0">
+                  <p className="text-sm font-semibold text-gray-800 truncate">{job.company}</p>
+                </div>
+                <div className="w-44 shrink-0">
+                  <p className="text-sm text-gray-700 truncate">{job.position}</p>
+                </div>
+                <div className="w-32 shrink-0">
+                  <p className="text-sm text-gray-500 truncate">{job.location || "—"}</p>
+                </div>
+                <div className="w-24 shrink-0">
+                  <StatusBadge status={job.status} />
+                </div>
+                <div className="w-20 shrink-0">
+                  <p className="text-sm text-gray-500 capitalize">{job.priority}</p>
+                </div>
+                <div className="w-28 shrink-0">
+                  <p className="text-sm text-gray-500 truncate">{job.salary || "—"}</p>
+                </div>
+                <div className="w-28 shrink-0">
+                  <p className="text-sm text-gray-500">
+                    {new Date(job.appliedDate).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="ml-auto flex gap-2 shrink-0">
+                  <Link
+                    to={`/jobs/${job.id}/edit`}
+                    className="border border-blue-500 text-blue-600 px-3 py-1 rounded text-xs hover:bg-blue-50 transition-colors"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(job.id)}
+                    className="border border-red-400 text-red-500 px-3 py-1 rounded text-xs hover:bg-red-50 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="flex justify-between items-center mt-4">
