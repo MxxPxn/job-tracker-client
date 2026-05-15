@@ -68,7 +68,7 @@ const JobsPage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
+    <div className="max-w-7xl mx-auto px-6 py-10">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">My Job Applications</h2>
         <div className="flex gap-2">
@@ -131,6 +131,7 @@ const JobsPage = () => {
               <div className="w-36 shrink-0">Company</div>
               <div className="w-44 shrink-0">Position</div>
               <div className="w-32 shrink-0">Location</div>
+              <div className="w-24 shrink-0">Source</div>
               <div className="w-24 shrink-0">Status</div>
               <div className="w-20 shrink-0">Priority</div>
               <div className="w-28 shrink-0">Salary</div>
@@ -150,6 +151,9 @@ const JobsPage = () => {
                 </div>
                 <div className="w-32 shrink-0">
                   <p className="text-sm text-gray-500 truncate">{job.location || "—"}</p>
+                </div>
+                <div className="w-24 shrink-0">
+                  <p className="text-sm text-gray-500 truncate">{job.source || "—"}</p>
                 </div>
                 <div className="w-24 shrink-0">
                   <StatusBadge status={job.status} />
