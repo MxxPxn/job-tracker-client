@@ -7,8 +7,8 @@ const CreateJobPage = () => {
   const [company, setCompany] = useState("");
   const [priority, setPriority] = useState("medium");
   const [location, setLocation] = useState("");
-  const [source, setSource] = useState("");
-  const [customSource, setCustomSource] = useState("");
+  const [platform, setPlatform] = useState("");
+  const [customPlatform, setCustomPlatform] = useState("");
   const [salary, setSalary] = useState("");
   const [appliedDate, setAppliedDate] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
@@ -21,10 +21,10 @@ const CreateJobPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const finalSource = source === "Other" ? customSource : source;
+    const finalPlatform = platform === "Other" ? customPlatform : platform;
 
     try {
-      await apiClient.post("/jobs", { position, company, appliedDate, status, priority, location, salary, deadlineDate, jobUrl, notes, source: finalSource });
+      await apiClient.post("/jobs", { position, company, appliedDate, status, priority, location, salary, deadlineDate, jobUrl, notes, platform: finalPlatform });
       navigate("/jobs");
     } catch (err) {
       setError(
@@ -158,19 +158,19 @@ const CreateJobPage = () => {
 
         <div>
           <label
-            htmlFor="source"
+            htmlFor="platform"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Source
+            Platform
           </label>
-          {source !== "Other" ? (
+          {platform !== "Other" ? (
             <select
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              id="source"
-              value={source}
-              onChange={(e) => setSource(e.target.value)}
+              id="platform"
+              value={platform}
+              onChange={(e) => setPlatform(e.target.value)}
             >
-              <option value="">Select source</option>
+              <option value="">Select platform</option>
               <option value="LinkedIn">LinkedIn</option>
               <option value="Indeed">Indeed</option>
               <option value="Company Website">Company Website</option>
@@ -181,13 +181,13 @@ const CreateJobPage = () => {
             <><input
                 type="text"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
-                placeholder="Enter source"
-                value={customSource}
-                onChange={(e) => setCustomSource(e.target.value)} /><button type="button"
+                placeholder="Enter platform"
+                value={customPlatform}
+                onChange={(e) => setCustomPlatform(e.target.value)} /><button type="button"
                   className="mt-2 text-sm text-gray-500 hover:text-gray-700"
                   onClick={() => {
-                    setCustomSource("");
-                    setSource("");
+                    setCustomPlatform("");
+                    setPlatform("");
                   } }
                 >
                   Clear

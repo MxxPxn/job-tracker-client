@@ -131,7 +131,7 @@ const JobsPage = () => {
               <div className="w-36 shrink-0">Company</div>
               <div className="w-44 shrink-0">Position</div>
               <div className="w-32 shrink-0">Location</div>
-              <div className="w-24 shrink-0">Source</div>
+              <div className="w-24 shrink-0">Platform</div>
               <div className="w-24 shrink-0">Status</div>
               <div className="w-20 shrink-0">Priority</div>
               <div className="w-28 shrink-0">Salary</div>
@@ -153,7 +153,7 @@ const JobsPage = () => {
                   <p className="text-sm text-gray-500 truncate">{job.location || "—"}</p>
                 </div>
                 <div className="w-24 shrink-0">
-                  <p className="text-sm text-gray-500 truncate">{job.source || "—"}</p>
+                  <p className="text-sm text-gray-500 truncate">{job.platform || "—"}</p>
                 </div>
                 <div className="w-24 shrink-0">
                   <StatusBadge status={job.status} />
