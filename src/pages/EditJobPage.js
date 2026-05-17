@@ -48,7 +48,7 @@ const EditJobPage = () => {
     setError("");
 
     try {
-      await apiClient.put(`/jobs/${id}`, { position, company, appliedDate: appliedDate || null, status, notes, location, salary, deadlineDate: deadlineDate || null, jobUrl, platform, priority });
+      await apiClient.put(`/jobs/${id}`, { position, company, appliedDate: appliedDate || null, status, notes, location, salary, deadlineDate: deadlineDate || null, jobUrl, platform: platform || null, priority });
       navigate("/jobs");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update job application");
