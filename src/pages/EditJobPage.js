@@ -12,6 +12,7 @@ const EditJobPage = () => {
   const [salary, setSalary] = useState("");
   const [deadlineDate, setDeadlineDate] = useState("");
   const [jobUrl, setJobUrl] = useState("");
+  const [platform, setPlatform] = useState("");
   const [priority, setPriority] = useState("medium");
   const [status, setStatus] = useState("applied");
   const [notes, setNotes] = useState("");
@@ -32,6 +33,7 @@ const EditJobPage = () => {
         setSalary(job.salary || "");
         setDeadlineDate(job.deadlineDate?.slice(0, 10)); 
         setJobUrl(job.jobUrl || "");
+        setPlatform(job.platform || "");
         setPriority(job.priority || "medium");
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch job application");
@@ -46,7 +48,7 @@ const EditJobPage = () => {
     setError("");
 
     try {
-      await apiClient.put(`/jobs/${id}`, { position, company, appliedDate: appliedDate || null, status, notes, location, salary, deadlineDate: deadlineDate || null, jobUrl, priority });
+      await apiClient.put(`/jobs/${id}`, { position, company, appliedDate: appliedDate || null, status, notes, location, salary, deadlineDate: deadlineDate || null, jobUrl, platform, priority });
       navigate("/jobs");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update job application");
@@ -132,6 +134,24 @@ const EditJobPage = () => {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
+        </div>
+
+        <div>
+          <label htmlFor="platform" className="block text-sm font-medium text-gray-700 mb-1">
+            Platform
+          </label>
+          <select
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            id="platform"
+            value={platform}
+            onChange={(e) => setPlatform(e.target.value)}
+          >
+            <option value="">Select Platform</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Indeed">Indeed</option>
+            <option value="Glassdoor">Glassdoor</option>
+            <option value="Company Website">Company Website</option>
+          </select>
         </div>
 
         <div>

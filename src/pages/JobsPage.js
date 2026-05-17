@@ -5,6 +5,7 @@ import apiClient from "../api/client";
 import StatusBadge from "../components/StatusBadge";
 
 const JOBS_PER_PAGE = 10;
+const selectClasses = "border border-gray-300 rounded-md px-10 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500";
 
 const JobsPage = () => {
   const [jobs, setJobs] = useState([]);
@@ -12,6 +13,7 @@ const JobsPage = () => {
   const [error, setError] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
+  const [platformFilter, setPlatformFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 10 });
   const { logout } = useAuth();
@@ -32,6 +34,10 @@ const JobsPage = () => {
         if (priorityFilter) {
           params.priority = priorityFilter;
         }
+        if (platformFilter) {
+          params.platform = platformFilter;
+        }
+
         const response = await apiClient.get("/jobs", { params });
         setJobs(response.data.data);
         setPagination(response.data.pagination);
@@ -43,7 +49,7 @@ const JobsPage = () => {
     };
 
     fetchJobs();
-  }, [currentPage, statusFilter, priorityFilter]);
+  }, [currentPage, statusFilter, priorityFilter, platformFilter]);
 
   const handleFilterChange = (setter) => (e) => {
     setter(e.target.value);
@@ -92,7 +98,7 @@ const JobsPage = () => {
         <div className="flex gap-4">
           <select
             id="statusFilter"
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={selectClasses}
             value={statusFilter}
             onChange={handleFilterChange(setStatusFilter)}
           >
@@ -104,7 +110,7 @@ const JobsPage = () => {
           </select>
           <select
             id="priorityFilter"
-            className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={selectClasses}
             value={priorityFilter}
             onChange={handleFilterChange(setPriorityFilter)}
           >
@@ -113,6 +119,21 @@ const JobsPage = () => {
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
+
+          <select
+            id="platformFilter"
+            className={selectClasses}
+            value={platformFilter}
+            onChange={handleFilterChange(setPlatformFilter)}
+          >
+            <option value="">All Platforms</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Indeed">Indeed</option>
+            <option value="Glassdoor">Glassdoor</option>
+            <option value="Company Website">Company Website</option>
+
+          </select>
+
         </div>
       </div>
 
