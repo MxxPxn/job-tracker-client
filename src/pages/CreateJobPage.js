@@ -24,7 +24,7 @@ const CreateJobPage = () => {
     const finalPlatform = platform === "Other" ? customPlatform : platform;
 
     try {
-      await apiClient.post("/jobs", { position, company, appliedDate, status, priority, location, salary, deadlineDate, jobUrl, notes, platform: finalPlatform });
+      await apiClient.post("/jobs", { position, company, appliedDate, status, priority, location, salary, deadlineDate, jobUrl, notes, platform: finalPlatform || null});
       navigate("/jobs");
     } catch (err) {
       setError(
